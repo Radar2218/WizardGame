@@ -13,7 +13,7 @@ public class FollowCamera : MonoBehaviour
 		transform.position = virtualTargetPos;
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		Vector3 distance = virtualTargetPos - transform.position;
 		
