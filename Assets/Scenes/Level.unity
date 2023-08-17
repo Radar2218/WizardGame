@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 394690134}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 394690129}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.48, z: 0}
+  m_LocalPosition: {x: 0, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -286,9 +286,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   jumpSpeed: 10
+  projectileOffset: {x: 0, y: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  projectile: {fileID: 2229144594657362842, guid: c3f03592e7d569f428fe4e679112c321, type: 3}
+--- !u!1 &412197420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412197422}
+  - component: {fileID: 412197421}
+  m_Layer: 0
+  m_Name: LogicManager
+  m_TagString: LogicManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &412197421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412197420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5841535a8e6444ebcc821ddcc7c6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenRect:
+    serializedVersion: 2
+    x: -13
+    y: -6
+    width: 26
+    height: 12
+--- !u!4 &412197422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412197420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,12 +494,6 @@ MonoBehaviour:
   cameraSpeed: 0.95
   snapDistance: 0.0005
   target: {fileID: 394690129}
-  cameraDeadZone:
-    serializedVersion: 2
-    x: -1.5
-    y: -1.5
-    width: 3
-    height: 3
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3905,3 +3951,4 @@ SceneRoots:
   - {fileID: 942053705}
   - {fileID: 943571288}
   - {fileID: 996846650}
+  - {fileID: 412197422}

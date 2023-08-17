@@ -5,12 +5,26 @@ public class FollowCamera : MonoBehaviour
 {
 	public float cameraSpeed, snapDistance;
 	public GameObject target;
-	public Rect cameraDeadZone;
+
+	private Rect cameraDeadZone;
 
 	void Start()
 	{
 		math.clamp(cameraSpeed, 0.0f, 1.0f);
 		transform.position = virtualTargetPos;
+
+		LogicManager logicManager = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<LogicManager>();
+		cameraDeadZone = new(logicManager.screenRect);
+		
+		Camera cameraComponent = GetComponent<Camera>();
+
+		cameraDeadZone.y += cameraComponent.orthographicSize;
+		cameraDeadZone.height -= 2.0f * cameraComponent.orthographicSize;
+		if (cameraDeadZone.height < 0.0f) cameraDeadZone.height = 0.0f;
+		
+		cameraDeadZone.x += cameraComponent.orthographicSize * Screen.width / Screen.height;
+		cameraDeadZone.width -= 2.0f * cameraComponent.orthographicSize * Screen.width / Screen.height;
+		if (cameraDeadZone.width < 0.0f) cameraDeadZone.width = 0.0f;
 	}
 
 	void FixedUpdate()
