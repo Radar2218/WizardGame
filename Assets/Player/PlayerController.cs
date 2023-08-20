@@ -4,10 +4,12 @@ using Unity.Mathematics;
 public class PlayerController : MonoBehaviour
 {
 	public float speed, jumpSpeed;
+	public float shootDelay;
 	public Vector2 projectileOffset;
 	public LayerMask groundMask;
 	public GameObject projectile;
 
+	private float currentShootDelay;
 	private Rigidbody2D rigidbodyComp;
 	private CapsuleCollider2D capsuleCollider;
 
@@ -15,10 +17,13 @@ public class PlayerController : MonoBehaviour
 	{
 		rigidbodyComp = GetComponent<Rigidbody2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
+		currentShootDelay = 0.0f;
 	}
 
 	void Update()
 	{
+		currentShootDelay += Time.deltaTime;
+
 		float horizontalInput = Input.GetAxis("Horizontal");
 		rigidbodyComp.velocity = new Vector2(speed * horizontalInput, rigidbodyComp.velocity.y);
 
@@ -26,22 +31,35 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
 		if (Input.GetButtonDown("Jump") && isGrounded)
-		{
 			rigidbodyComp.velocity = new Vector2(rigidbodyComp.velocity.x, jumpSpeed);
-		}
 
 		if (Input.GetButtonDown("Fire1"))
-		{
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
-			Vector3 rightDirection = mousePosition - transform.position;
-			Vector3 upwardsDirection = Vector3.Cross(rightDirection, Vector3.forward);
-			Instantiate(projectile, transform.position + new Vector3(projectileOffset.x, projectileOffset.y), Quaternion.LookRotation(rightDirection, upwardsDirection));
-		}
+			FireProjectile();
+	}
+
+	void FireProjectile()
+	{
+		if (currentShootDelay < shootDelay) return;
+		currentShootDelay = 0.0f;
+
+		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
+		Vector3 rightDirection = mousePosition - transform.position;
+		Vector3 upwardsDirection = Vector3.Cross(rightDirection, Vector3.forward);
+
+		Vector3 position = GetProjectileSpwanPos();
+		Instantiate(projectile, position, Quaternion.LookRotation(rightDirection, upwardsDirection));
+	}
+
+	Vector3 GetProjectileSpwanPos()
+	{
+		Transform wand = transform.GetChild(0);
+		Vector3 offset = wand.localPosition + wand.rotation * projectileOffset;
+		return transform.position + offset;
 	}
 
 	void OnDrawGizmos()
 	{
-		Gizmos.DrawWireSphere(projectileOffset, 0.2f);
+		Gizmos.DrawWireSphere(GetProjectileSpwanPos(), 0.2f);
 	}
 
 	bool isGrounded
